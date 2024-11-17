@@ -50,9 +50,18 @@ function M.setup_todoist_syntax()
     TodoistPriority3 = { fg = config.highlight.priority3 }
   }
 
-  for group, colors in pairs(highlights) do
-    vim.api.nvim_set_hl(0, group, colors)
+for group, colors in pairs(highlights) do
+    local hl = {}
+    for k, v in pairs(colors) do
+      if k == "gui" then
+        if v:find("bold") then hl.bold = true end
+        if v:find("italic") then hl.italic = true end
+        if v:find("underline") then hl.underline = true end
+      else
+        hl[k] = v
+      end
+    end
+    vim.api.nvim_set_hl(0, group, hl)
   end
-end
-
+end 
 return M
