@@ -1,0 +1,139 @@
+# Project Structure
+```
+todoist.nvim/
+├── lua/
+│   └── todoist/
+│       ├── init.lua
+│       ├── integration.lua
+│       └── utils.lua
+├── plugin/
+│   └── todoist.lua
+├── doc/
+│   └── todoist.txt
+├── README.md
+├── LICENSE
+└── .gitignore
+```
+
+# README.md
+# todoist.nvim
+
+A Neovim plugin for Todoist integration. Manage your Todoist tasks directly from Neovim!
+
+## Features
+
+- View all your Todoist projects and tasks
+- Add new tasks with priorities and due dates
+- Complete/uncomplete tasks
+- Delete tasks
+- Auto-refresh
+- Syntax highlighting for priorities and due dates
+- Full project support including empty projects
+
+## Requirements
+
+- Neovim >= 0.5.0
+- curl
+- A Todoist API token
+
+## Installation
+
+Using [packer.nvim](https://github.com/wbthomason/packer.nvim):
+
+```lua
+use {
+  'yourusername/todoist.nvim',
+  config = function()
+    require('todoist').setup({
+      -- Optional config
+      auto_refresh_interval = 30000, -- 30 seconds
+      highlight = {
+        priority1 = "#ff0000",
+        priority2 = "#ff8c00",
+        priority3 = "#0087ff",
+      }
+    })
+  end
+}
+```
+
+Using [lazy.nvim](https://github.com/folke/lazy.nvim):
+
+```lua
+{
+  'yourusername/todoist.nvim',
+  config = function()
+    require('todoist').setup()
+  end
+}
+```
+
+## Configuration
+
+First, set your Todoist API token in your environment:
+
+```bash
+export TODOIST_API_KEY='your-api-token-here'
+```
+
+## Usage
+
+1. Open Todoist view:
+   ```
+   :Todoist
+   ```
+
+2. Key mappings in Todoist buffer:
+   - `<Enter>` on empty line: Add new task
+   - `c`: Toggle task completion
+   - `dd`: Delete task
+   - `r`: Refresh tasks manually
+
+## License
+
+MIT
+
+# .gitignore
+```
+.DS_Store
+*.swp
+*.swo
+```
+
+# doc/todoist.txt
+```
+*todoist.txt*  Todoist integration for Neovim
+
+INTRODUCTION                                    *todoist*
+
+Todoist.nvim provides integration with Todoist, allowing you to manage your tasks
+directly from Neovim.
+
+COMMANDS                                        *todoist-commands*
+
+:Todoist                                        *:Todoist*
+    Open the Todoist task view buffer
+
+MAPPINGS                                        *todoist-mappings*
+
+The following mappings are available in the Todoist buffer:
+
+<CR>    Add new task (when on empty line)
+c       Toggle task completion
+dd      Delete task
+r       Refresh tasks manually
+
+CONFIGURATION                                   *todoist-config*
+
+Todoist.nvim can be configured by calling the setup function:
+>
+    require('todoist').setup({
+        auto_refresh_interval = 30000,
+        highlight = {
+            priority1 = "#ff0000",
+            priority2 = "#ff8c00",
+            priority3 = "#0087ff",
+        }
+    })
+<
+```
