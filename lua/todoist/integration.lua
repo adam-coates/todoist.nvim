@@ -209,6 +209,19 @@ function M.get_due_date()
   return nil
 end
 
+function M.get_reminders()
+    local reminders = {}
+    local add_reminder = vim.fn.input("Add reminder? Enter date/time (e.g., 'monday 10:45am') or press Enter to skip: ")
+    
+    if add_reminder ~= "" then
+      table.insert(reminders, {
+        due = { string = add_reminder }
+      })
+    end
+    
+    return reminders
+  end
+
 function M.get_project_selection()
   if not data or not data.projects then return nil end
 
@@ -265,25 +278,45 @@ function M.add_task(content, current_line)
   end
 
   local due = M.get_due_date()
+  local reminders = M.get_reminders()
   local priority = M.get_priority()
 
   local task_temp_id = utils.generate_uuid()
-  local commands = {
-    {
+  local commands = {}
+    local task_args = {
+      content = content,
+      project_id = project_id,
+      priority = priority
+    }
+
+    if due then
+      task_args.due = due
+    end
+
+    table.insert(commands, {
       type = "item_add",
       temp_id = task_temp_id,
       uuid = utils.generate_uuid(),
-      args = {
-        content = content,
-        project_id = project_id,
-        priority = priority,
-        due = due
-      }
-    }
-  }
+      args = task_args
+    })
 
-  api.execute_commands(commands, data.sync_token)
-end
+    -- Add reminders if any
+    if #reminders > 0 then
+      for _, reminder in ipairs(reminders) do
+        table.insert(commands, {
+          type = "reminder_add",
+          temp_id = utils.generate_uuid(),
+          uuid = utils.generate_uuid(),
+          args = {
+            item_id = task_temp_id,
+            due = reminder.due
+          }
+        })
+      end
+    end
+--
+    api.execute_commands(commands, data.sync_token)
+  end
 
 function M.toggle_task(task_id)
   local commands = {
