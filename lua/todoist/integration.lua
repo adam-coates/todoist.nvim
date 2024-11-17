@@ -99,7 +99,7 @@ local function setup_keymaps()
     if line:match('^%s*$') or line:match('^-%s*%[%s*%]') then
       local new_task = vim.fn.input('New task: ')
       if new_task ~= '' then
-        add_task(new_task, current_line)
+        M.add_task(new_task, current_line)  -- Use M.add_task instead of add_task
         refresh_tasks()
       end
     end
@@ -109,7 +109,7 @@ local function setup_keymaps()
     local line_nr = vim.api.nvim_win_get_cursor(0)[1]
     local task_id = get_task_id_from_line(line_nr - 1)
     if task_id then
-      toggle_task(task_id)
+      M.toggle_task(task_id)  -- Use M.toggle_task instead of toggle_task
       refresh_tasks()
     end
   end, opts)
@@ -119,7 +119,7 @@ local function setup_keymaps()
     local task_id = get_task_id_from_line(line_nr - 1)
     if task_id then
       if vim.fn.confirm('Delete this task?', '&Yes\n&No') == 1 then
-        delete_task(task_id)
+        M.delete_task(task_id)  -- Use M.delete_task instead of delete_task
         refresh_tasks()
       end
     end
@@ -130,6 +130,7 @@ local function setup_keymaps()
     print("Tasks refreshed!")
   end, opts)
 end
+
 
 function M.open_todoist()
   if not os.getenv("TODOIST_API_KEY") then
