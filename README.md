@@ -30,6 +30,8 @@ A neovim plugin written in pure `lua` for integration with [Todoist](www.todoist
     
     > Not able to customise the rending of colours in the ui
 
+- Other projects are unmaintained
+
 ### Features
 
 1. Full integration with todoist (all features for adding tasks are implemented, including todoist pro features)
