@@ -99,3 +99,8 @@ export TODOIST_API_KEY="$(pass Todoist/API)"
    - `dd`: Delete task
    - `r`: Refresh tasks manually
 
+### Upcoming features 
+
+- [ ] Add ability to add custom durations (not yet implemented)
+- [ ] Add ability to change/ delete projects (not yet implemented)
+- [ ] Add ability to make changes to already existing tasks (not yet implemented)
