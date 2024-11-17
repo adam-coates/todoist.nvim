@@ -15,12 +15,16 @@ A neovim plugin written in pure `lua` for integration with [Todoist](www.todoist
 
 - Other neovim plugins do not have full functionality for integrating with todist 
 
-    > Here plugins may use the REST api method for integrating with todoist documented [here](https://developer.todoist.com/rest/v2/#overview)
+    > Plugins may use the REST api method for integrating with todoist documented [here](https://developer.todoist.com/rest/v2/#overview)
     > The REST api does not have the capabilities to add reminders for example
 
 - Other plugins are outdated 
     
-    > Written in `vimscript` or combining with other languages e.g. `python`, `javascript`
+    > Written in `vimscript` 
+
+- Other plugins make use of unneeded language 
+
+> Combining `vimscript` or `lua` with other languages e.g. `python`, `javascript`
 
 - Other plugins don't allow for much if any configuration
     
