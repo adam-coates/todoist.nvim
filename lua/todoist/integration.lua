@@ -189,7 +189,7 @@ function M.open_todoist()
 end
 
 -- Helper functions for task management
-local function M.get_priority()
+function M.get_priority()
   local priority = vim.fn.input("Enter priority (1-4, Enter for default): ")
   if priority ~= "" then
     priority = tonumber(priority)
@@ -200,7 +200,7 @@ local function M.get_priority()
   return 1
 end
 
-local function M.get_due_date()
+function M.get_due_date()
   local date_string = vim.fn.input("Enter due date (e.g., 'tomorrow at 10:00', 'monday at 15:00', or press Enter to skip): ")
   if date_string ~= "" then
     return { string = date_string }
@@ -208,32 +208,32 @@ local function M.get_due_date()
   return nil
 end
 
-local function M.get_project_selection()
+function M.get_project_selection()
   if not data or not data.projects then return nil end
-  
+
   local project_names = {}
   local project_ids = {}
   for _, project in ipairs(data.projects) do
     table.insert(project_names, project.name)
     table.insert(project_ids, project.id)
   end
-  
+
   local selected_idx = vim.fn.index(project_names, vim.fn.input("Select project (press Tab to complete): ", "", "customlist," .. table.concat(project_names, "\n"))) + 1
   if selected_idx > 0 then
     return project_ids[selected_idx]
   end
-  
+
   -- Default to Inbox
-  for i, project in ipairs(data.projects) do
+  for _, project in ipairs(data.projects) do
     if project.name == "Inbox" then
       return project.id
     end
   end
-  
+
   return data.projects[1].id
 end
 
-local function M.add_task(content, current_line)
+function M.add_task(content, current_line)
   if not data or not data.projects or #data.projects == 0 then
     print("No projects available")
     return
@@ -241,7 +241,7 @@ local function M.add_task(content, current_line)
 
   local project_id = nil
   local current_project = nil
-  
+
   for i = current_line, 1, -1 do
     local line = vim.api.nvim_buf_get_lines(buf, i - 1, i, false)[1]
     if line and line:match("^### (.+)$") then
@@ -249,7 +249,7 @@ local function M.add_task(content, current_line)
       break
     end
   end
-  
+
   if current_project then
     for _, project in ipairs(data.projects) do
       if project.name == current_project then
@@ -258,13 +258,13 @@ local function M.add_task(content, current_line)
       end
     end
   end
-  
+
   if not project_id then
-    project_id = get_project_selection()
+    project_id = M.get_project_selection()
   end
 
-  local due = get_due_date()
-  local priority = get_priority()
+  local due = M.get_due_date()
+  local priority = M.get_priority()
 
   local task_temp_id = utils.generate_uuid()
   local commands = {
@@ -284,7 +284,7 @@ local function M.add_task(content, current_line)
   api.execute_commands(commands, data.sync_token)
 end
 
-local function M.toggle_task(task_id)
+function M.toggle_task(task_id)
   local commands = {
     {
       type = "item_close",
@@ -297,7 +297,7 @@ local function M.toggle_task(task_id)
   api.execute_commands(commands, data.sync_token)
 end
 
-local function M.delete_task(task_id)
+function M.delete_task(task_id)
   local commands = {
     {
       type = "item_delete",
@@ -309,5 +309,4 @@ local function M.delete_task(task_id)
   }
   api.execute_commands(commands, data.sync_token)
 end
-
 return M
