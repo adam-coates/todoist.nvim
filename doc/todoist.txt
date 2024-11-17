@@ -5,9 +5,9 @@ todoist.nvim/
 │   └── todoist/
 │       ├── init.lua
 │       ├── integration.lua
-│       └── utils.lua
-├── plugin/
-│   └── todoist.lua
+│       ├── utils.lua
+│       ├── api.lua
+│       ├── ui.lua
 ├── doc/
 │   └── todoist.txt
 ├── README.md
@@ -42,7 +42,7 @@ Using [packer.nvim](https://github.com/wbthomason/packer.nvim):
 
 ```lua
 use {
-  'yourusername/todoist.nvim',
+  'adam-coates/todoist.nvim',
   config = function()
     require('todoist').setup({
       -- Optional config
@@ -61,7 +61,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-  'yourusername/todoist.nvim',
+  'adam-coates/todoist.nvim',
   config = function()
     require('todoist').setup()
   end
@@ -89,19 +89,6 @@ export TODOIST_API_KEY='your-api-token-here'
    - `dd`: Delete task
    - `r`: Refresh tasks manually
 
-## License
-
-MIT
-
-# .gitignore
-```
-.DS_Store
-*.swp
-*.swo
-```
-
-# doc/todoist.txt
-```
 *todoist.txt*  Todoist integration for Neovim
 
 INTRODUCTION                                    *todoist*
