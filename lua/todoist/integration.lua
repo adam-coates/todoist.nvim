@@ -189,7 +189,7 @@ function M.open_todoist()
 end
 
 -- Helper functions for task management
-local function get_priority()
+local function M.get_priority()
   local priority = vim.fn.input("Enter priority (1-4, Enter for default): ")
   if priority ~= "" then
     priority = tonumber(priority)
@@ -200,7 +200,7 @@ local function get_priority()
   return 1
 end
 
-local function get_due_date()
+local function M.get_due_date()
   local date_string = vim.fn.input("Enter due date (e.g., 'tomorrow at 10:00', 'monday at 15:00', or press Enter to skip): ")
   if date_string ~= "" then
     return { string = date_string }
@@ -208,7 +208,7 @@ local function get_due_date()
   return nil
 end
 
-local function get_project_selection()
+local function M.get_project_selection()
   if not data or not data.projects then return nil end
   
   local project_names = {}
@@ -233,7 +233,7 @@ local function get_project_selection()
   return data.projects[1].id
 end
 
-local function add_task(content, current_line)
+local function M.add_task(content, current_line)
   if not data or not data.projects or #data.projects == 0 then
     print("No projects available")
     return
@@ -284,7 +284,7 @@ local function add_task(content, current_line)
   api.execute_commands(commands, data.sync_token)
 end
 
-local function toggle_task(task_id)
+local function M.toggle_task(task_id)
   local commands = {
     {
       type = "item_close",
@@ -297,7 +297,7 @@ local function toggle_task(task_id)
   api.execute_commands(commands, data.sync_token)
 end
 
-local function delete_task(task_id)
+local function M.delete_task(task_id)
   local commands = {
     {
       type = "item_delete",
