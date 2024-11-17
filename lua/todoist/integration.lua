@@ -18,7 +18,7 @@ end
 
 local function refresh_tasks()
   data = api.fetch_data()
-  if not data then return end
+  if not data or type(data.projects) ~= "table" then return end
   
   vim.api.nvim_buf_set_option(buf, 'modifiable', true)
   
