@@ -3,6 +3,8 @@ local utils = require('todoist.utils')
 local ui = require('todoist.ui')
 local config = require('todoist').config
 
+-- TODO: clean up the functions here the implementation is way too messy e.g. global variables
+
 local M = {}
 
 local data = nil
