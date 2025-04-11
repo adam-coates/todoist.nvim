@@ -17,6 +17,11 @@ M.config = {
     header = "#c678dd",
     header_line = "#545862",
     instructions = "#abb2bf",
+  },
+  -- New configuration options for markdown integration
+  markdown = {
+    enabled = false,
+    auto_refresh = false,
   }
 }
 
@@ -27,6 +32,12 @@ M.setup = function(opts)
   vim.api.nvim_create_user_command('Todoist', function()
     require('todoist.integration').open_todoist()
   end, {})
+  
+  -- Initialize markdown integration if enabled
+  if M.config.markdown.enabled then
+    require('todoist.markdown_integration').setup()
+  end
 end
 
 return M
+
